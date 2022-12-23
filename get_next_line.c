@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouderr <mbouderr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbouhali <nbouhali@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 14:37:08 by mbouderr          #+#    #+#             */
-/*   Updated: 2022/12/18 23:16:53 by mbouderr         ###   ########.fr       */
+/*   Updated: 2022/12/23 20:18:52 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,20 @@
 
 char	*get_next_line(int fd)
 {
-	char		*buffer;
-	char		*sos;
 	int			ch7al9ra;
+	char		*sos;
 	static char	*zebala;
 
-	ch7al9ra = 1;
 	sos = ft_calloc(BUFFER_SIZE, 1);
-	buffer = ft_calloc(BUFFER_SIZE + 1, 1);
+	ch7al9ra = 1;
 	if (zebala)
 	{
 		sos = ft_strjoin(sos, zebala);
 		free(zebala);
 		zebala = NULL;
 	}
-	while ((ft_strchr(buffer, '\n') == -1) && (ch7al9ra > 0))
-	{
-		ft_bzero(buffer, BUFFER_SIZE);
-		ch7al9ra = read(fd, buffer, BUFFER_SIZE);
-		if (ch7al9ra == -1)
-		{
-			free(sos);
-			free(buffer);
-			return (NULL);
-		}
-		sos = ft_strjoin(sos, buffer);
-	}
-	free(buffer);
-	if (ft_strchr(sos, '\n') != -1)
+	sos = reader(fd, &ch7al9ra, sos);
+	if (sos && ft_strchr(sos, '\n') != -1)
 	{
 		zebala = ft_substr(sos, ft_strchr(sos, '\n') + 1, ft_strchr(sos, '\0'));
 		sos = newsos(sos);
@@ -53,6 +39,7 @@ char	*get_next_line(int fd)
 	}
 	return (sos);
 }
+
 char	*newsos(char *strlwl)
 {
 	char	*strjdid;
@@ -60,6 +47,41 @@ char	*newsos(char *strlwl)
 	strjdid = ft_substr(strlwl, 0, ft_strchr(strlwl, '\n') + 1);
 	free(strlwl);
 	return (strjdid);
+}
+
+char	*reader(int fd, int *ch7al9ra, char *sos)
+{
+	char	*buffer;
+
+	buffer = ft_calloc(BUFFER_SIZE + 1, 1);
+	while ((ft_strchr(buffer, '\n') == -1) && (*ch7al9ra > 0))
+	{
+		ft_bzero(buffer, BUFFER_SIZE);
+		*ch7al9ra = read(fd, buffer, BUFFER_SIZE);
+		if (*ch7al9ra < 0)
+		{
+			free(sos);
+			free(buffer);
+			return (NULL);
+		}
+		sos = ft_strjoin(sos, buffer);
+	}
+	free(buffer);
+	return (sos);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+	char	*b;
+
+	i = 0;
+	b = (char *)s;
+	while (i < n)
+	{
+		b[i] = '\0';
+		i++;
+	}
 }
 // int main()
 // {
@@ -70,6 +92,5 @@ char	*newsos(char *strlwl)
 //                 printf("%s", get_next_line(fd));
 //                                 printf("%s", get_next_line(fd));
 //                                                                 printf("%s",
-		get_next_line(fd));
 
 // }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouderr <mbouderr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbouhali <nbouhali@student.1337.ma >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 14:38:13 by mbouderr          #+#    #+#             */
-/*   Updated: 2022/12/18 22:42:24 by mbouderr         ###   ########.fr       */
+/*   Updated: 2022/12/23 20:08:49 by nbouhali         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-void	*ft_calloc(size_t count, size_t size);
 char	*get_next_line(int fd);
-char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(char *str);
+void	*ft_calloc(size_t count, size_t size);
+
+char	*ft_strjoin(char *s1, char *s2);
+
 ssize_t	ft_strchr(char *s, int c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*newsos(char *strlwl);
 void	ft_bzero(void *s, size_t n);
-
+char	*reader(int fd, int *ch7al9ra, char *sos);
 #endif
